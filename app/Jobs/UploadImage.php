@@ -40,9 +40,9 @@ class UploadImage implements ShouldQueue
         $path = storage_path() . '/uploads/' . $this->fileId;
         $fileName = $this->fileId . '.png';
 
-        // Image::make($path)->encode('png')->fit(40, 40, function ($c) {
-        //     $c->upsize();
-        // })->save();
+        Image::make($path)->encode('png')->fit(40, 40, function ($c) {
+            $c->upsize();
+        })->save();
 
         if (Storage::disk('s3images')->put('profile/' . $fileName, fopen($path, 'r+'))) {
             File::delete($path);
